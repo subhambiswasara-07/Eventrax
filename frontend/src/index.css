@@ -1,0 +1,71 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  color-scheme: light;
+  --surface: #f7f8fc;
+  --surface-strong: #ffffff;
+  --ink: #111827;
+  --muted: #64748b;
+  --line: rgba(15, 23, 42, 0.10);
+  --accent: #6d5dfb;
+  --teal: #12b8a6;
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  @apply bg-chalk text-ink font-body antialiased;
+  background:
+    radial-gradient(circle at 10% 0%, rgba(109,93,251,.07), transparent 28rem),
+    radial-gradient(circle at 90% 10%, rgba(18,184,166,.06), transparent 26rem),
+    var(--surface);
+}
+
+h1, h2, h3, .font-display {
+  font-family: Inter, ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  letter-spacing: -0.035em;
+}
+
+a, button, input, textarea, select { -webkit-tap-highlight-color: transparent; }
+
+a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible, select:focus-visible {
+  outline: 3px solid rgba(109,93,251,.35);
+  outline-offset: 3px;
+}
+
+::selection { background: rgba(109,93,251,.18); }
+
+.ticket-stub {
+  position: relative;
+  background: rgba(255,255,255,.88);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  box-shadow: 0 18px 50px rgba(17,24,39,.08);
+  backdrop-filter: blur(18px);
+}
+.ticket-stub::before, .ticket-stub::after { display:none; }
+
+.ticket-perforation { border-left: 1px dashed rgba(15,23,42,.14); }
+
+.halftone-band {
+  background-image: radial-gradient(circle, rgba(17,24,39,.09) 1px, transparent 1px);
+  background-size: 12px 12px;
+  mask-image: linear-gradient(to bottom, black, transparent);
+}
+
+.diagonal-clip-bottom, .diagonal-clip-top { clip-path: none; }
+
+input, textarea, select {
+  box-sizing: border-box;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+}

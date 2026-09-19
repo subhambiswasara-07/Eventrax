@@ -34,6 +34,14 @@
 
 // module.exports = { sendBookingEmail, sendotpEmail };
 
+
+
+
+
+//  updated code 
+
+
+
 const nodemailer = require("nodemailer");
 
 const transporter = nodemailer.createTransport({

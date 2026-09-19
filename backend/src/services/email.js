@@ -1,69 +1,4 @@
-
-
-const { Resend } = require("resend");
-
-// Initialize Resend with your API Key set on Render
-const resend = new Resend(process.env.RESEND_API_KEY);
-
-const sendBookingEmail = async (to, subject, eventname) => {
-  try {
-    const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev", // Resend default test sender
-      to,
-      subject,
-      text: `Your booking for the event "${eventname}" has been confirmed.`,
-    });
-
-    if (error) {
-      console.error("❌ Booking email delivery error:", error);
-      throw new Error(error.message);
-    }
-
-    console.log("✅ Booking email sent via Resend, ID:", data.id);
-    return data;
-  } catch (error) {
-    console.error("❌ Booking email failed:", error);
-    throw error;
-  }
-};
-
-const sendotpEmail = async (to, username, subject, type, otp) => {
-  try {
-    const messageContent =
-      type === "verification"
-        ? `Hey ${username}, your OTP for email verification is: ${otp}`
-        : `Hey ${username}, your OTP for event confirmation is: ${otp}`;
-
-    const { data, error } = await resend.emails.send({
-      from: "onboarding@resend.dev", // Resend default test sender
-      to,
-      subject,
-      text: messageContent,
-    });
-
-    if (error) {
-      console.error("❌ OTP email delivery error:", error);
-      throw new Error(error.message);
-    }
-
-    console.log("✅ OTP email sent via Resend, ID:", data.id);
-    return data;
-  } catch (error) {
-    console.error("❌ OTP email failed:");
-    console.error(error);
-    throw error;
-  }
-};
-
-module.exports = {
-  sendBookingEmail,
-  sendotpEmail,
-};
-
-
-//  updated code 
-
-
+// //  updated code
 
 // const nodemailer = require("nodemailer");
 
@@ -133,3 +68,59 @@ module.exports = {
 //   sendBookingEmail,
 //   sendotpEmail,
 // };
+
+
+
+
+const nodemailer = require("nodemailer");
+const brevoTransport = require("nodemailer-brevo-transport");
+
+const transporter = nodemailer.createTransport(
+  new brevoTransport({
+    apiKey: process.env.RESEND_API_KEY,
+  }),
+);
+
+const sendBookingEmail = async (to, subject, eventname) => {
+  try {
+    const info = await transporter.sendMail({
+      from: `"Eventrax" <${process.env.EMAIL}>`,
+      to,
+      subject,
+      text: `Your booking for the event "${eventname}" has been confirmed.`,
+    });
+
+    console.log("✅ Booking email sent via Brevo API:", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("❌ Booking email failed:", error);
+    throw error;
+  }
+};
+
+const sendotpEmail = async (to, username, subject, type, otp) => {
+  try {
+    const messageContent =
+      type === "verification"
+        ? `Hey ${username}, your OTP for email verification is: ${otp}`
+        : `Hey ${username}, your OTP for event confirmation is: ${otp}`;
+
+    const info = await transporter.sendMail({
+      from: `"Eventrax" <${process.env.EMAIL}>`,
+      to,
+      subject,
+      text: messageContent,
+    });
+
+    console.log("✅ OTP email sent via Brevo API:", info.messageId);
+    return info;
+  } catch (error) {
+    console.error("❌ OTP email failed:", error);
+    throw error;
+  }
+};
+
+module.exports = {
+  sendBookingEmail,
+  sendotpEmail,
+};

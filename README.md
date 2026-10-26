@@ -12,8 +12,8 @@ The latest seeded project includes these admin accounts for local/demo use:
 
 | Admin | Email | Password |
 |---|---|---|
-| Rahul Chatterjee | `rahul.chatterjee@example.com` | `password123` |
-| Meera Iyer | `meera.iyer@example.com` | `password123` |
+| useradmin| `useraadmin77@gmail.com` | `admin77` |
+
 
 **Admin login page:** `/login`
 
